@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmounsif <mmounsif@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/17 20:15:16 by mmounsif          #+#    #+#             */
+/*   Updated: 2024/12/17 20:15:18 by mmounsif         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
 size_t	ft_strlen(const char *s)
@@ -45,7 +57,7 @@ void	*ft_calloc(size_t count, size_t size)
 {
 	void	*ptr;
 
-	if (size != 0 && count > __SIZE_MAX__ / size)
+	if (size != 0 && count > SIZE_MAX / size)
 		return (NULL);
 	ptr = malloc(count * size);
 	if (!ptr)
