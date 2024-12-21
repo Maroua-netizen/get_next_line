@@ -6,13 +6,13 @@
 /*   By: mmounsif <mmounsif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 20:15:16 by mmounsif          #+#    #+#             */
-/*   Updated: 2024/12/17 20:15:18 by mmounsif         ###   ########.fr       */
+/*   Updated: 2024/12/21 23:34:19 by mmounsif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
+static size_t	ft_strlen(const char *s)
 {
 	int	i;
 
@@ -20,6 +20,48 @@ size_t	ft_strlen(const char *s)
 	while (s[i])
 		i++;
 	return (i);
+}
+
+static void	ft_bzero(void *s, size_t n)
+{
+	unsigned int	i;
+	unsigned char	*pb;
+
+	pb = (unsigned char *) s;
+	i = 0;
+	while (i < n)
+	{
+		pb[i] = 0;
+		i++;
+	}
+}
+static void	*ft_memcpy(void *dst, const void *src, size_t n)
+{
+	unsigned int	i;
+	unsigned char	*d;
+	unsigned char	*s;
+
+	if (dst == src)
+		return (dst);
+	d = (unsigned char *) dst;
+	s = (unsigned char *) src;
+	i = 0;
+	while (i < n)
+	{
+		d[i] = s[i];
+		i++;
+	}
+	return (dst);
+}
+
+int	line_len(char *stash)
+{
+	int	i;
+
+	i = 0;
+	while (stash[i] && stash[i] != '\n')
+		i++;
+	return (i + 1);
 }
 
 char	*ft_strchr(const char *s, int c)
@@ -32,25 +74,11 @@ char	*ft_strchr(const char *s, int c)
 	while (i <= len)
 	{
 		if (*s == (unsigned char) c)
-			return ((char *)s);
+			return ((char *)s + 1);
 		s++;
 		i++;
 	}
 	return (NULL);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	unsigned int	i;
-	unsigned char	*pb;
-
-	pb = (unsigned char *) s;
-	i = 0;
-	while (i < n)
-	{
-		pb[i] = 0;
-		i++;
-	}
 }
 
 void	*ft_calloc(size_t count, size_t size)
@@ -81,25 +109,6 @@ char	*ft_strdup(const char *s1)
 		i++;
 	}
 	return (dest);
-}
-
-void	*ft_memcpy(void *dst, const void *src, size_t n)
-{
-	unsigned int	i;
-	unsigned char	*d;
-	unsigned char	*s;
-
-	if (dst == src)
-		return (dst);
-	d = (unsigned char *) dst;
-	s = (unsigned char *) src;
-	i = 0;
-	while (i < n)
-	{
-		d[i] = s[i];
-		i++;
-	}
-	return (dst);
 }
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)

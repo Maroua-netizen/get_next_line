@@ -21,7 +21,7 @@ int main()
 		if (!next_line)
 			break;
 		count++;
-		printf("Line %d: %s\n", count, next_line);
+		printf("Line %d: %s", count, next_line);
 		free(next_line);
 	}
 	close(fd);
