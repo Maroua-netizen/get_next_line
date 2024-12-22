@@ -6,7 +6,7 @@
 /*   By: mmounsif <mmounsif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 20:15:16 by mmounsif          #+#    #+#             */
-/*   Updated: 2024/12/22 05:03:15 by mmounsif         ###   ########.fr       */
+/*   Updated: 2024/12/22 06:24:27 by mmounsif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*ft_strdup(const char *s1)
 	char	*dest;
 	int		i;
 
-	dest = malloc(ft_strlen(s1) + 1 * sizeof(char));
+	dest = malloc((ft_strlen(s1) + 1) * sizeof(char));
 	if (!dest)
 		return (NULL);
 	dest[ft_strlen(s1)] = '\0';
@@ -70,7 +70,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (ft_strdup(""));
 	if (len > slen - start)
 		len = slen - start;
-	str = malloc(len + 1 * sizeof(char));
+	str = malloc((len + 1) * sizeof(char));
 	if (!str)
 		return (NULL);
 	str[len] = '\0';

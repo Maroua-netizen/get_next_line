@@ -6,7 +6,7 @@
 /*   By: mmounsif <mmounsif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 20:15:06 by mmounsif          #+#    #+#             */
-/*   Updated: 2024/12/22 05:04:21 by mmounsif         ###   ########.fr       */
+/*   Updated: 2024/12/22 07:05:36 by mmounsif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static char	*read_from_file(int fd, char *stash)
 {
 	char	*buf;
 	size_t	bytes_read;
+	char	*temp;
 
 	buf = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buf)
@@ -56,7 +57,10 @@ static char	*read_from_file(int fd, char *stash)
 			return (free(buf), NULL);
 		if (bytes_read == 0)
 			break ;
-		stash = ft_strjoin(stash, buf);
+		buf[bytes_read] = '\0';
+		temp = ft_strjoin(stash, buf);
+		free(stash);
+		stash = temp;
 	}
 	return (free(buf), stash);
 }
@@ -86,7 +90,7 @@ static int	line_len(char *stash)
 // 		perror("Error opening file");
 // 		return (1);
 // 	}
-// 	write(fd, "Hello, World!\n42\ntests", 22);
+// 	write(fd, "0", 1);
 // 	lseek(fd, 0, SEEK_SET);
 // 	count = 0;
 // 	while (1)
