@@ -6,7 +6,7 @@
 /*   By: mmounsif <mmounsif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 20:15:06 by mmounsif          #+#    #+#             */
-/*   Updated: 2024/12/22 07:05:36 by mmounsif         ###   ########.fr       */
+/*   Updated: 2024/12/22 10:32:15 by mmounsif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,11 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
 	if (!stash)
+	{
 		stash = ft_strdup("");
+		if (!stash)
+			return (NULL);
+	}
 	stash = read_from_file(fd, stash);
 	if (!stash || !*stash)
 		return (free(stash), stash = NULL, NULL);
@@ -43,7 +47,7 @@ char	*get_next_line(int fd)
 static char	*read_from_file(int fd, char *stash)
 {
 	char	*buf;
-	size_t	bytes_read;
+	int		bytes_read;
 	char	*temp;
 
 	buf = malloc((BUFFER_SIZE + 1) * sizeof(char));
@@ -53,8 +57,8 @@ static char	*read_from_file(int fd, char *stash)
 	while (!ft_strchr(stash, '\n'))
 	{
 		bytes_read = read(fd, buf, BUFFER_SIZE);
-		if (bytes_read < 0)
-			return (free(buf), NULL);
+		if (bytes_read == -1)
+			return (free(buf), free(stash), NULL);
 		if (bytes_read == 0)
 			break ;
 		buf[bytes_read] = '\0';
