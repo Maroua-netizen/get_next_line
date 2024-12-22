@@ -6,36 +6,20 @@
 /*   By: mmounsif <mmounsif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 20:15:06 by mmounsif          #+#    #+#             */
-/*   Updated: 2024/12/22 01:12:16 by mmounsif         ###   ########.fr       */
+/*   Updated: 2024/12/22 05:04:21 by mmounsif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*read_from_file(int fd, char *stash)
-{
-	char	*buf;
-	size_t	bytes_read;
-
-	buf = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
-	if (!buf)
-		return (NULL);
-	while (!ft_strchr(stash, '\n'))
-	{
-		bytes_read = read(fd, buf, BUFFER_SIZE);
-		if (bytes_read < 0)
-			return (free(buf), NULL);
-		if (bytes_read == 0)
-			break ;
-		stash = ft_strjoin(stash, buf);
-	}
-	return (free(buf), stash);
-}
+static char	*read_from_file(int fd, char *stash);
+static int	line_len(char *stash);
 
 char	*get_next_line(int fd)
 {
-	char	*line;
+	char		*line;
 	static char	*stash;
+	char		*temp;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
@@ -50,6 +34,69 @@ char	*get_next_line(int fd)
 		return (free(stash), stash = NULL, line);
 	}
 	line = ft_substr(stash, 0, line_len(stash));
-	stash = ft_strdup(stash + line_len(stash));
+	temp = ft_strdup(stash + line_len(stash));
+	free(stash);
+	stash = temp;
 	return (line);
 }
+
+static char	*read_from_file(int fd, char *stash)
+{
+	char	*buf;
+	size_t	bytes_read;
+
+	buf = malloc((BUFFER_SIZE + 1) * sizeof(char));
+	if (!buf)
+		return (NULL);
+	buf[BUFFER_SIZE] = '\0';
+	while (!ft_strchr(stash, '\n'))
+	{
+		bytes_read = read(fd, buf, BUFFER_SIZE);
+		if (bytes_read < 0)
+			return (free(buf), NULL);
+		if (bytes_read == 0)
+			break ;
+		stash = ft_strjoin(stash, buf);
+	}
+	return (free(buf), stash);
+}
+
+static int	line_len(char *stash)
+{
+	int	i;
+
+	i = 0;
+	while (stash[i] && stash[i] != '\n')
+		i++;
+	return (i + 1);
+}
+
+// #include <fcntl.h>
+// #include <stdio.h>
+
+// int main()
+// {
+// 	int fd;
+// 	char *next_line;
+// 	int count;
+
+// 	fd = open("test.txt", O_CREAT | O_RDWR, 0644);
+// 	if (fd < 0)
+// 	{
+// 		perror("Error opening file");
+// 		return (1);
+// 	}
+// 	write(fd, "Hello, World!\n42\ntests", 22);
+// 	lseek(fd, 0, SEEK_SET);
+// 	count = 0;
+// 	while (1)
+// 	{
+// 		next_line = get_next_line(fd);
+// 		if (!next_line)
+// 			break;
+// 		count++;
+// 		printf("Line %d: %s", count, next_line);
+// 		free(next_line);
+// 	}
+// 	close(fd);
+// }
