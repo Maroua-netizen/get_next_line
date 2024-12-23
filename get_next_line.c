@@ -6,7 +6,7 @@
 /*   By: mmounsif <mmounsif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 20:15:06 by mmounsif          #+#    #+#             */
-/*   Updated: 2024/12/23 12:40:54 by mmounsif         ###   ########.fr       */
+/*   Updated: 2024/12/23 13:56:08 by mmounsif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ static char	*read_from_file(int fd, char *stash)
 	buf = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buf)
 		return (NULL);
-	buf[BUFFER_SIZE] = '\0';
 	while (!ft_strchr(stash, '\n'))
 	{
 		bytes_read = read(fd, buf, BUFFER_SIZE);
