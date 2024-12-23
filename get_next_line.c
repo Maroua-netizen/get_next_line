@@ -6,7 +6,7 @@
 /*   By: mmounsif <mmounsif@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 20:15:06 by mmounsif          #+#    #+#             */
-/*   Updated: 2024/12/22 10:32:15 by mmounsif         ###   ########.fr       */
+/*   Updated: 2024/12/23 12:40:54 by mmounsif         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*get_next_line(int fd)
 	static char	*stash;
 	char		*temp;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!stash)
 	{
@@ -74,9 +74,13 @@ static int	line_len(char *stash)
 	int	i;
 
 	i = 0;
-	while (stash[i] && stash[i] != '\n')
+	while (stash[i])
+	{
+		if (stash[i] == '\n')
+			return (i + 1);
 		i++;
-	return (i + 1);
+	}
+	return (i);
 }
 
 // #include <fcntl.h>
